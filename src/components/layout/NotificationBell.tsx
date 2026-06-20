@@ -67,7 +67,7 @@ export function NotificationBell() {
         ) : alerts && alerts.length > 0 ? (
           <div className="max-h-80 overflow-y-auto">
             {alerts.map((alert: any) => (
-              <DropdownMenuItem key={alert.id} className="cursor-pointer px-3 py-3 focus:bg-muted/50" asChild>
+              <DropdownMenuItem key={alert.id} className="cursor-pointer px-3 py-3 focus:bg-muted/50">
                 <div className="flex items-start justify-between gap-2 w-full">
                   <div className="flex-1 min-w-0">
                     <p className={`text-xs font-semibold uppercase tracking-wide ${severityColor(alert.severity)}`}>
@@ -105,7 +105,7 @@ export function NotificationBell() {
         {alerts && alerts.length > 0 && (
           <>
             <DropdownMenuSeparator className="bg-border" />
-            <DropdownMenuItem className="cursor-pointer text-xs text-center text-muted-foreground justify-center" asChild>
+            <DropdownMenuItem className="cursor-pointer text-xs text-center text-muted-foreground justify-center">
               <a href="/alerts">View all alerts →</a>
             </DropdownMenuItem>
           </>
