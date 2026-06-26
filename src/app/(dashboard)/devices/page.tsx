@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useState } from "react";
 import { FleetHealthCards } from "@/components/devices/FleetHealthCards";
+import { formatDistanceToNow } from "date-fns";
 
 export default function DevicesPage() {
   const [updating, setUpdating] = useState<string | null>(null);
@@ -31,10 +32,10 @@ export default function DevicesPage() {
     },
   });
 
-  // Unpair mutation — calls DELETE /devices/:id/unpair
+  // Unpair mutation — calls DELETE /devices/admin/:id/unpair
   const unpairMutation = useMutation({
     mutationFn: async (deviceId: string) => {
-      await axios.delete(`/devices/${deviceId}/unpair`);
+      await axios.delete(`/devices/admin/${deviceId}/unpair`);
     },
     onSuccess: () => {
       toast.success("Device unpaired successfully");
@@ -43,10 +44,10 @@ export default function DevicesPage() {
     onError: () => toast.error("Failed to unpair device"),
   });
 
-  // Firmware update — calls PATCH /devices/:id/firmware
+  // Firmware update — calls POST /devices/admin/:id/firmware-update
   const firmwareMutation = useMutation({
     mutationFn: async (deviceId: string) => {
-      await axios.patch(`/devices/${deviceId}/firmware`, { triggerUpdate: true });
+      await axios.post(`/devices/admin/${deviceId}/firmware-update`);
     },
     onSuccess: () => {
       toast.success("Firmware update queued for device");
@@ -141,7 +142,7 @@ export default function DevicesPage() {
                       </div>
                     </TableCell>
                     <TableCell className="text-muted-foreground text-sm">
-                      {device.lastSyncAt ? new Date(device.lastSyncAt).toLocaleString() : 'Never'}
+                      {device.lastSyncAt ? formatDistanceToNow(new Date(device.lastSyncAt), { addSuffix: true }) : 'Never'}
                     </TableCell>
                     <TableCell className="text-right">
                       <DropdownMenu>
